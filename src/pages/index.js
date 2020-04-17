@@ -8,13 +8,13 @@ class IndexPage extends React.Component {
     super(props);
     this.state = {
       currentQuote: {
-        id: "d92f1a2f-b68a-5a7e-bfdb-0d3c10ab651d",
-        author: "Elie Wiesel",
+        author: "Kurt Vonnegut",
+        time: "20:01",
+        timeLong: "a little after eight o'clock",
+        title: "Slaughterhouse 5",
         quote:
-          "Six minutes to five. Six minutes to go. Suddenly I felt quite clearheaded. There was an unexpected light in the cell; the boundaries were drawn, the roles well defined. The time of doubt and questioning and uncertainty was over.",
-        time: "04:54",
-        timeLong: "six minutes to five",
-        title: "Dawn: A Novel",
+          "It was only a little after eight o'clock, so all the shows were about silliness or murder.",
+        id: "b3307da8-e5ab-5fd7-bf6e-100507fabe3b",
       },
     };
   }
@@ -28,21 +28,42 @@ class IndexPage extends React.Component {
     clearInterval(this.timerID);
   }
 
-  tick() {
+  findLastQuote(time) {
     const data = this.props.data.allQuotesCsv;
-    console.log("updating time");
-    const time = moment().format("HH:mm");
-
-    const currentQuotes = data.edges.filter(quote => {
+    let currentQuotes = data.edges.filter(quote => {
       return quote.node.time == time;
     });
 
-    const currentQuote =
-      (currentQuotes &&
-        currentQuotes[Math.floor(Math.random() * currentQuotes.length)].node) ||
-      this.state.currentQuote;
+    if (currentQuotes.length < 1) {
+      let index;
 
-    console.log("currentQuotes: ", currentQuotes);
+      //look back 15 minutes to find a time with a quote
+      for (index = 0; index < 15; index++) {
+        let thisTime = moment().subtract(index, "minutes").format("HH:mm");
+
+        currentQuotes = data.edges.filter(quote => {
+          return quote.node.time == thisTime;
+        });
+
+        if (currentQuotes.length >= 1) {
+          break;
+        }
+      }
+    }
+    //pick a random quote if there are more than one for this time
+    const randomIndex = Math.floor(Math.random() * currentQuotes.length);
+
+    return (
+      (currentQuotes && currentQuotes[randomIndex].node) ||
+      this.state.currentQuote
+    );
+  }
+
+  tick() {
+    console.log("updating time");
+    const time = moment().format("HH:mm");
+
+    const currentQuote = this.findLastQuote(time);
 
     this.setState({
       currentQuote: currentQuote,
@@ -52,12 +73,11 @@ class IndexPage extends React.Component {
     const { currentQuote } = this.state;
     const time = moment().format("dddd, MMMM Do YYYY, h:mm a");
 
-    console.log("currentQuote: ", currentQuote);
     return (
       <Layout>
         <h1>{time}</h1>
         <blockquote>
-          <p>{currentQuote.quote.replace("\\", "")}</p>
+          <p>{currentQuote.quote.replace(/\\/g, "")}</p>
           <div>
             {currentQuote.title} - {currentQuote.author}
           </div>
