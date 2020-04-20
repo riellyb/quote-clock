@@ -1,20 +1,23 @@
-import { graphql } from "gatsby";
-import React from "react";
-import moment from "moment";
-import Layout from "../components/layout";
+import { graphql } from 'gatsby';
+import React from 'react';
+import moment from 'moment';
+
+import Layout from '../components/layout';
+import './index.scss';
 
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      backgroundColor: '#ffcb23',
       currentQuote: {
-        author: "Kurt Vonnegut",
-        time: "20:01",
+        author: 'Kurt Vonnegut',
+        time: '20:01',
         timeLong: "a little after eight o'clock",
-        title: "Slaughterhouse 5",
+        title: 'Slaughterhouse 5',
         quote:
           "It was only a little after eight o'clock, so all the shows were about silliness or murder.",
-        id: "b3307da8-e5ab-5fd7-bf6e-100507fabe3b",
+        id: 'b3307da8-e5ab-5fd7-bf6e-100507fabe3b',
       },
     };
   }
@@ -39,7 +42,7 @@ class IndexPage extends React.Component {
 
       //look back 15 minutes to find a time with a quote
       for (index = 0; index < 15; index++) {
-        let thisTime = moment().subtract(index, "minutes").format("HH:mm");
+        let thisTime = moment().subtract(index, 'minutes').format('HH:mm');
 
         currentQuotes = data.edges.filter(quote => {
           return quote.node.time == thisTime;
@@ -50,7 +53,7 @@ class IndexPage extends React.Component {
         }
       }
     }
-    //pick a random quote if there are more than one for this time
+    //pick a random quote if there are more than one associated with the current time
     const randomIndex = Math.floor(Math.random() * currentQuotes.length);
 
     return (
@@ -60,8 +63,8 @@ class IndexPage extends React.Component {
   }
 
   tick() {
-    console.log("updating time");
-    const time = moment().format("HH:mm");
+    console.log('updating time');
+    const time = moment().format('HH:mm');
 
     const currentQuote = this.findLastQuote(time);
 
@@ -70,18 +73,23 @@ class IndexPage extends React.Component {
     });
   }
   render() {
-    const { currentQuote } = this.state;
-    const time = moment().format("dddd, MMMM Do YYYY, h:mm a");
+    const { currentQuote, backgroundColor } = this.state;
+    const time = moment().format('h:mm a');
 
     return (
-      <Layout>
-        <h1>{time}</h1>
-        <blockquote>
-          <p>{currentQuote.quote.replace(/\\/g, "")}</p>
-          <div>
-            {currentQuote.title} - {currentQuote.author}
+      <Layout backgroundColor={backgroundColor}>
+        <div className="quote-container">
+          <div className="time" style={{ color: '#ffcb23' }}>
+            {time}
           </div>
-        </blockquote>
+          <blockquote className="quote">
+            {currentQuote.quote.replace(/\\/g, '')}
+          </blockquote>
+          <div className="title-container">
+            <div className="title">{currentQuote.title}</div>
+            <div className="author">{currentQuote.author}</div>
+          </div>
+        </div>
       </Layout>
     );
   }

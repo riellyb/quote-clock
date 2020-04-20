@@ -1,0 +1,42 @@
+$text-color: #6b6768;
+
+footer {
+  background-color: white;
+  color: $text-color;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  z-index: 2;
+
+  .about {
+    z-index: 5;
+  }
+
+  .triangle {
+    position: absolute;
+    left: 25px;
+    top: -33px;
+    background: white;
+    width: 30px;
+    height: 30px;
+    transform: rotate(45deg);
+    z-index: -1;
+
+    @media (min-width: 768px) {
+      width: 60px;
+      height: 60px;
+      top: -45px;
+      left: 15px;
+    }
+  }
+
+  .credits {
+    font-size: 10px;
+
+    @media (min-width: 768px) {
+      font-size: 12px;
+    }
+  }
+}
