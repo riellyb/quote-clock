@@ -11,6 +11,7 @@ class IndexPage extends React.Component {
     super(props);
     this.state = {
       backgroundColor: '#ffcb23',
+      time: '20:01',
       currentQuote: {
         author: 'Kurt Vonnegut',
         time: '20:01',
@@ -18,7 +19,6 @@ class IndexPage extends React.Component {
         title: 'Slaughterhouse 5',
         quote:
           "It was only a little after eight o'clock, so all the shows were about silliness or murder.",
-        id: 'b3307da8-e5ab-5fd7-bf6e-100507fabe3b',
       },
     };
   }
@@ -69,9 +69,12 @@ class IndexPage extends React.Component {
 
     const currentQuote = this.findLastQuote(time);
 
-    this.setState({
-      currentQuote: currentQuote,
-    });
+    if (currentQuote.time !== this.state.time) {
+      this.setState({
+        currentQuote: currentQuote,
+        time: currentQuote.time,
+      });
+    }
   }
   render() {
     const { currentQuote, backgroundColor } = this.state;
