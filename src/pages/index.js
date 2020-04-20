@@ -2,6 +2,7 @@ import { graphql } from 'gatsby';
 import React from 'react';
 import moment from 'moment';
 
+import SEO from '../components/seo';
 import Layout from '../components/layout';
 import './index.scss';
 
@@ -78,6 +79,7 @@ class IndexPage extends React.Component {
 
     return (
       <Layout backgroundColor={backgroundColor}>
+        <SEO title="Quote of the Minute" />
         <div className="quote-container">
           <div className="time" style={{ color: '#ffcb23' }}>
             {time}
