@@ -7,9 +7,10 @@ const Footer = () => (
       <div className="triangle"></div>
       <h1 className="about">Quote of the Minute</h1>
       <div className="credits">
-        Created by <a href="https://www.brendanrielly.com">Brendan Rielly</a> |
-        Designed by <a href="https://www.izzywashburn.com">Izzy Washburn</a> |
-        Inspired by <a href="http://www.eerlijkemedia.nl/">Jaap Meijers</a>
+        <a href="https://github.com/riellyb/quote-clock">GitHub</a> | Created by{' '}
+        <a href="https://www.brendanrielly.com">Brendan Rielly</a> | Designed by{' '}
+        <a href="https://www.izzywashburn.com">Izzy Washburn</a> | Inspired by{' '}
+        <a href="http://www.eerlijkemedia.nl/">Jaap Meijers</a>
       </div>
     </div>
   </footer>
