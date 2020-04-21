@@ -1,16 +1,30 @@
 import { graphql } from 'gatsby';
 import React from 'react';
 import moment from 'moment';
+import { Transition } from 'react-transition-group';
 
 import SEO from '../components/seo';
 import Layout from '../components/layout';
 import './index.scss';
+
+const defaultStyle = {
+  transition: ` opacity 200ms ease`,
+  opacity: 1,
+};
+
+const transitionStyles = {
+  entering: { opacity: 0 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0 },
+  exited: { opacity: 0 },
+};
 
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       backgroundColor: '#ffcb23',
+      startTransition: false,
       time: '20:01',
       currentQuote: {
         author: 'Kurt Vonnegut',
@@ -73,6 +87,7 @@ class IndexPage extends React.Component {
       this.setState({
         currentQuote: currentQuote,
         time: currentQuote.time,
+        startTransition: true,
       });
     } else {
       this.setState({
@@ -81,7 +96,7 @@ class IndexPage extends React.Component {
     }
   }
   render() {
-    const { currentQuote, backgroundColor } = this.state;
+    const { currentQuote, backgroundColor, startTransition } = this.state;
     const time = moment().format('h:mm a');
 
     const formattedQuote = currentQuote.quote
@@ -94,19 +109,29 @@ class IndexPage extends React.Component {
     return (
       <Layout backgroundColor={backgroundColor}>
         <SEO title="Quote of the Minute" />
-        <div className="quote-container">
-          <div className="time" style={{ color: backgroundColor }}>
-            {time}
-          </div>
-          <blockquote
-            className="quote"
-            dangerouslySetInnerHTML={{ __html: formattedQuote }}
-          />
-          <div className="title-container">
-            <div className="title">{currentQuote.title}</div>
-            <div className="author">{currentQuote.author}</div>
-          </div>
-        </div>
+        <Transition unmountOnExit in={startTransition} timeout={1000}>
+          {state => (
+            <div
+              className="quote-container"
+              style={{
+                ...defaultStyle,
+                ...transitionStyles[state],
+              }}
+            >
+              <div className="time" style={{ color: backgroundColor }}>
+                {time}
+              </div>
+              <blockquote
+                className="quote"
+                dangerouslySetInnerHTML={{ __html: formattedQuote }}
+              />
+              <div className="title-container">
+                <div className="title">{currentQuote.title}</div>
+                <div className="author">{currentQuote.author}</div>
+              </div>
+            </div>
+          )}
+        </Transition>
       </Layout>
     );
   }
