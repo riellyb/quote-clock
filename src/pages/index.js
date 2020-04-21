@@ -74,6 +74,10 @@ class IndexPage extends React.Component {
         currentQuote: currentQuote,
         time: currentQuote.time,
       });
+    } else {
+      this.setState({
+        time: time,
+      });
     }
   }
   render() {
