@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,900;1,500&display=swap');
 $font-stack: 'Poppins', sans-serif;
 $background-color: #222;
 $text-color: white;
@@ -62,13 +62,17 @@ h1 {
 .time,
 .quote {
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .quote {
   margin: 0 0 60px 0;
   padding-top: 30px;
   max-width: 100%;
+
+  .time-bold {
+    font-weight: 900;
+  }
 }
 
 .title-container {
@@ -97,7 +101,6 @@ h1 {
   .time,
   .quote {
     font-size: 30px;
-    font-weight: bold;
   }
 
   .quote {

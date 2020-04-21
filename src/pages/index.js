@@ -84,16 +84,24 @@ class IndexPage extends React.Component {
     const { currentQuote, backgroundColor } = this.state;
     const time = moment().format('h:mm a');
 
+    const formattedQuote = currentQuote.quote
+      .replace(/\\/g, '')
+      .replace(
+        currentQuote.timeLong,
+        `<span class="time-bold">${currentQuote.timeLong}</span>`
+      );
+
     return (
       <Layout backgroundColor={backgroundColor}>
         <SEO title="Quote of the Minute" />
         <div className="quote-container">
-          <div className="time" style={{ color: '#ffcb23' }}>
+          <div className="time" style={{ color: backgroundColor }}>
             {time}
           </div>
-          <blockquote className="quote">
-            {currentQuote.quote.replace(/\\/g, '')}
-          </blockquote>
+          <blockquote
+            className="quote"
+            dangerouslySetInnerHTML={{ __html: formattedQuote }}
+          />
           <div className="title-container">
             <div className="title">{currentQuote.title}</div>
             <div className="author">{currentQuote.author}</div>
